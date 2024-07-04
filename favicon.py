@@ -7,6 +7,8 @@ from pprint import pprint
 from dataclasses import dataclass
 from enum import Enum
 
+import PIL.Image
+
 
 @dataclass
 class Image:
@@ -108,9 +110,28 @@ def read_image_file(path):
     )
 
 
+PALETTE = {
+    "background": (0, 0, 0, 0),
+    "body": (255, 255, 255, 255),
+    "border": (0, 0, 0, 255),
+    "border rounding": (127, 127, 127, 255),
+    "shadow": (0, 0, 0, 127),
+}
+
+
+def produce_ico_file(source):
+    assert source.width == 32 and source.height == 32
+    target = PIL.Image.new("RGBA", (32, 32), None)
+    for y, row in enumerate(source.data):
+        for x, px in enumerate(row):
+            value = PALETTE[source.palette[px]]
+            target.putpixel((x, y), value)
+    target.save("favicon.ico", "ICO")
+
+
 def main(input_path):
     image = read_image_file(input_path)
-    pprint(image)
+    produce_ico_file(image)
 
 
 if __name__ == "__main__":
