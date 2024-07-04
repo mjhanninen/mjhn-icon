@@ -1,0 +1,6 @@
+pillow
+#
+# Development
+#
+python-lsp-server
+python-lsp-ruff
