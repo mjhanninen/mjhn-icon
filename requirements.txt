@@ -18,6 +18,8 @@ jedi==0.19.1
     # via python-lsp-server
 lsprotocol==2023.0.1
     # via python-lsp-ruff
+numpy==2.0.0
+    # via -r requirements.in
 parso==0.8.4
     # via jedi
 pillow==10.4.0
