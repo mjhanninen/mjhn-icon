@@ -119,20 +119,23 @@ PALETTE = {
 }
 
 
-def produce_ico_file(source):
-    assert source.width == 32 and source.height == 32
-    target = PIL.Image.new("RGBA", (32, 32), None)
+def produce_browser_icon(source):
+    assert source.width <= 16 and source.height <= 16
+    x_ofs = (16 - source.width) // 2
+    y_ofs = (16 - source.height) // 2
+    target = PIL.Image.new("RGBA", (16, 16), PALETTE["background"])
     for y, row in enumerate(source.data):
         for x, px in enumerate(row):
             value = PALETTE[source.palette[px]]
-            target.putpixel((x, y), value)
-    target.save("favicon.ico", "ICO")
+            target.putpixel((x + x_ofs, y + y_ofs), value)
+    target.save("mjhn.ico", "ICO")
 
 
-def main(input_path):
-    image = read_image_file(input_path)
-    produce_ico_file(image)
+def main():
+    master_tiny = read_image_file("./mjhn-icon-tiny.txt")
+    _master_normal = read_image_file("./mjhn-icon.txt")
+    produce_browser_icon(master_tiny)
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:])
+    main()
